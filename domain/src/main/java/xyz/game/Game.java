@@ -34,6 +34,17 @@ public class Game {
         turn++;
     }
 
+    public void applyCommand(RollCommand command) throws UnexpectedActorException, InvalidGameStateException {
+        Player currentPlayer = Game.calculateCurrentPlayer(this.turn, this.players);
+        if(!command.actor.equals(currentPlayer)){
+            throw new UnexpectedActorException();
+        }
+        if(this.state != State.NEW_TURN) {
+            throw new InvalidGameStateException(State.NEW_TURN, this.state);
+        }
+        rolls.add(command.roll);
+    }
+
     public static Player calculateCurrentPlayer(int turn, Player[] players) {
         if(turn >= players.length && turn < 2*players.length)
             return players[players.length - 1 - (turn % players.length)];
