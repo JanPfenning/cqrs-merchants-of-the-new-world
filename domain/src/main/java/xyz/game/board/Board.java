@@ -69,6 +69,35 @@ public class Board {
                 }
             }
         }
+
+        for (TileNode nodeA : nodes) {
+            TileNode[] neighboursBofA = nodeA.getNeighbours();
+            // Loop through each neighbour B of node A
+            for (TileNode neighbourB : neighboursBofA) {
+                if(neighbourB == null) break;
+                TileNode[] neighboursCofB = neighbourB.getNeighbours();
+                // Loop through each neighbour C of neighbour B
+                for (TileNode neighbourC : neighboursCofB) {
+                    if(neighbourC == null) break;
+                    // Check if C is also a neighbour of A
+                    TileNode[] neighboursOfC = neighbourC.getNeighbours();
+                    if (Arrays.asList(neighboursOfC).contains(nodeA) && nodeA != neighbourC) {
+                        // If C is a neighbour of A, create a new Vertex V and add A, B, and C to its nodes
+                        Vertex v = new Vertex(nodeA, neighbourB, neighbourC);
+                        // Loop through all three parts of the trisection
+                        for (TileNode trisectionNode : new TileNode[]{nodeA, neighbourB, neighbourC}) {
+                            // Find the next null value in node.vertices array and put Vertex V to it
+                            for (int i = 0; i < trisectionNode.vertices.length; i++) {
+                                if (trisectionNode.vertices[i] == null) {
+                                    trisectionNode.vertices[i] = v;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private void connectNeighbors(TileNode node) {
@@ -148,8 +177,15 @@ public class Board {
 
     public static class Vertex {
         private final Edge[] edges = new Edge[3];
+        @Getter
         private final TileNode[] tiles = new TileNode[3];
         // private Data data;
+
+        Vertex(TileNode a, TileNode b, TileNode c) {
+            this.tiles[0] = a;
+            this.tiles[1] = b;
+            this.tiles[2] = c;
+        }
     }
 
     @Data
