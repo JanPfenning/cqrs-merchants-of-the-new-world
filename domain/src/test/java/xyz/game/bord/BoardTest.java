@@ -122,47 +122,49 @@ public class BoardTest {
         return null; // No common element found
     }
 
+    @Data
+    @AllArgsConstructor
+    class TestCaseForTrisection {
+        Coord nodeA;
+        Coord nodeB;
+        Coord nodeC;
+    }
+
+    TestCaseForTrisection[] testCases = new TestCaseForTrisection[]{
+        new TestCaseForTrisection(
+            new Coord(1,1),
+            new Coord(2,1),
+            new Coord(2,2)
+        ),
+        // new TestCase(
+        //     new Coord(4,1),
+        //     new Coord(3,1),
+        //     new Coord(4,2)
+        // ),
+        // new TestCase(
+        //     new Coord(4,1),
+        //     new Coord(3,1),
+        //     new Coord(3,0)
+        // ),
+        // new TestCase(
+        //     new Coord(4,1),
+        //     new Coord(4,2),
+        //     new Coord(3,2)
+        // ),
+        // new TestCase(
+        //     new Coord(2,2),
+        //     new Coord(3,1),
+        //     new Coord(3,2)
+        // ),
+    };
+
     @Test
     public void shouldHaveCommonVertexIfNodesTrisection() {
-        @Data
-        @AllArgsConstructor
-        class TestCase {
-            Coord nodeA;
-            Coord nodeB;
-            Coord nodeC;
-        }
 
         Board board = new Board(10,5);
 
-        TestCase[] testCases = new TestCase[]{
-            new TestCase(
-                new Coord(1,1),
-                new Coord(2,1),
-                new Coord(2,2)
-            ),
-            // new TestCase(
-            //     new Coord(4,1),
-            //     new Coord(3,1),
-            //     new Coord(4,2)
-            // ),
-            // new TestCase(
-            //     new Coord(4,1),
-            //     new Coord(3,1),
-            //     new Coord(3,0)
-            // ),
-            // new TestCase(
-            //     new Coord(4,1),
-            //     new Coord(4,2),
-            //     new Coord(3,2)
-            // ),
-            // new TestCase(
-            //     new Coord(2,2),
-            //     new Coord(3,1),
-            //     new Coord(3,2)
-            // ),
-        };
+        for (TestCaseForTrisection tc : testCases) {
 
-        for (TestCase tc : testCases) {
             Vertex[][] vertexArrays = new Vertex[][]{
                 board.getNodeAt(tc.nodeA.x, tc.nodeA.y).getVertices(),
                 board.getNodeAt(tc.nodeB.x, tc.nodeB.y).getVertices(),
