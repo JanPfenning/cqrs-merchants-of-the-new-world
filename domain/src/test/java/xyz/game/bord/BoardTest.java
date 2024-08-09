@@ -46,6 +46,12 @@ public class BoardTest {
     }
 
     @Test
+    public void shouldInstantiateTheBoard(){
+        Board board = new GridBoard(10, 5);
+        assertNotNull(board);
+    }
+
+    @Test
     public void shouldHaveTheCorrectNeighbours() {
         @Data
         @AllArgsConstructor
