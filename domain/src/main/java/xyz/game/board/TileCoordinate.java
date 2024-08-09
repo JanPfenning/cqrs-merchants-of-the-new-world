@@ -9,7 +9,7 @@ public class TileCoordinate {
     private final int x, y;
 
     @Getter
-    private final Map<CardinalDirection, TileCoordinate> surroundingTileCoordinates;
+    private final TileCoordinate[] surroundingTileCoordinates;
 
     @Getter
     private final EdgeCoordinate[] surroundingEdgeCoordindates;
@@ -18,14 +18,14 @@ public class TileCoordinate {
         this.x = x;
         this.y = y;
 
-        this.surroundingTileCoordinates = Map.ofEntries(
-            Map.entry(CardinalDirection.NORTH,      new TileCoordinate(x + 0, y - 1)),
-            Map.entry(CardinalDirection.NORTH_EAST, new TileCoordinate(x + 1, y + (x % 2 == 0 ? -1 : 0))),
-            Map.entry(CardinalDirection.SOUTH_EAST, new TileCoordinate(x + 1, y + (x % 2 == 0 ? 0 : +1))),
-            Map.entry(CardinalDirection.SOUTH,      new TileCoordinate(x + 0, y + 1)),
-            Map.entry(CardinalDirection.SOUTH_WEST, new TileCoordinate(x - 1, y + (x % 2 == 0 ? 0 : +1))),
-            Map.entry(CardinalDirection.NORTH_WEST, new TileCoordinate(x - 1, y + (x % 2 == 0 ? -1 : 0)))
-        );
+        this.surroundingTileCoordinates = new TileCoordinate[]{
+            new TileCoordinate(x + 0, y - 1), // N
+            new TileCoordinate(x + 1, y + (x % 2 == 0 ? -1 : 0)), // NE
+            new TileCoordinate(x + 1, y + (x % 2 == 0 ? 0 : +1)), // SE
+            new TileCoordinate(x + 0, y + 1), // S
+            new TileCoordinate(x - 1, y + (x % 2 == 0 ? 0 : +1)), // SW
+            new TileCoordinate(x - 1, y + (x % 2 == 0 ? -1 : 0)), // NW
+        };
 
         int baseEdgeX = x * 2;
         int baseEdgeOfsetY = x % 2 == 1 ? 2 : 0;
@@ -36,7 +36,7 @@ public class TileCoordinate {
             new EdgeCoordinate(baseEdgeX+2, baseEdgeY+3), // SE
             new EdgeCoordinate(baseEdgeX+1, baseEdgeY+4), // S
             new EdgeCoordinate(baseEdgeX+0, baseEdgeY+3), // SW
-            new EdgeCoordinate(baseEdgeX+0, baseEdgeY+1)  // NW
+            new EdgeCoordinate(baseEdgeX+0, baseEdgeY+1),  // NW
         };
     }
 

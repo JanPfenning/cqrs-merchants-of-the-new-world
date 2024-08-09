@@ -64,7 +64,7 @@ public class GridBoard implements Board {
 
     @Override
     public Tile[] getAdjacentTiles(TileCoordinate coordinate) {
-        return coordinate.getSurroundingTileCoordinates().values().stream().map(tc ->  this.getTile(tc)).toArray(Tile[]::new);
+        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(tc ->  this.getTile(tc)).toArray(Tile[]::new);
     }
 
     @Override
