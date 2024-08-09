@@ -24,21 +24,21 @@ public class GridBoard implements Board {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                TileCoordinate c = new TileCoordinate(i, j);
+                TileCoordinate c = new TileCoordinate(j, i);
                 this.tiles.put(c, new WaterTile(c));
             }
         }
 
-        for(int i = 0; i < (4 * (width + 1) + 2); i++){
-            for(int j = 0; j < (2 * (height + 1)); j++){
-                EdgeCoordinate c = new EdgeCoordinate(i, j);
+        for(int i = 0; i < (4 * (height + 1) + 2); i++){
+            for(int j = 0; j < (2 * (width + 1)); j++){
+                EdgeCoordinate c = new EdgeCoordinate(j, i);
                 this.edges.put(c, new Edge(c));
             }
         }
 
-        for(int i = 0; i < (2 * width + 1); i++){
-            for(int j = 0; j < (2 * height + 1); j++){
-                VertexCoordinate c = new VertexCoordinate(i,j);
+        for(int i = 0; i < (2 * height + 2); i++){
+            for(int j = 0; j < (2 * width + 1); j++){
+                VertexCoordinate c = new VertexCoordinate(j, i);
                 this.vertices.put(c, new Vertex(c));
             }
         }
