@@ -6,7 +6,7 @@ import lombok.Getter;
 
 public class TileCoordinate {
 
-    final int x, y;
+    private final int x, y;
 
     @Getter
     private final Map<CardinalDirection, TileCoordinate> surroundingTileCoordinates = Map.ofEntries(
@@ -17,10 +17,25 @@ public class TileCoordinate {
         Map.entry(CardinalDirection.SOUTH_WEST, calcSwTileCoordinate()),
         Map.entry(CardinalDirection.NORTH_WEST, calcNwTileCoordinate())
     );
+
+    @Getter
+    private final EdgeCoordinate[] surroundingEdgeCoordindates;
     
     public TileCoordinate(int x, int y) {
         this.x = x;
         this.y = y;
+
+        int baseEdgeX = x * 2;
+        int baseEdgeOfsetY = x % 2 == 1 ? 2 : 0;
+        int baseEdgeY = y * 4 + baseEdgeOfsetY;
+        this.surroundingEdgeCoordindates = new EdgeCoordinate[]{
+            new EdgeCoordinate(baseEdgeX+1, baseEdgeY+0), // N
+            new EdgeCoordinate(baseEdgeX+2, baseEdgeY+1), // NE
+            new EdgeCoordinate(baseEdgeX+2, baseEdgeY+3), // SE
+            new EdgeCoordinate(baseEdgeX+1, baseEdgeY+4), // S
+            new EdgeCoordinate(baseEdgeX+0, baseEdgeY+3), // SW
+            new EdgeCoordinate(baseEdgeX+0, baseEdgeY+1)  // NW
+        };
     }
 
     private TileCoordinate calcNnTileCoordinate() {

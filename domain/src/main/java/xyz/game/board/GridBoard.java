@@ -1,5 +1,6 @@
 package xyz.game.board;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,8 +81,7 @@ public class GridBoard implements Board {
 
     @Override
     public Edge[] getAdjacentEdges(TileCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAdjacentEdges'");
+        return Arrays.stream(coordinate.getSurroundingEdgeCoordindates()).map(c -> this.getEdge(c)).toArray(Edge[]::new);
     }
 
     @Override
