@@ -63,8 +63,7 @@ public class GridBoard implements Board {
 
     @Override
     public Tile[] getAdjacentTiles(TileCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAdjacentTiles'");
+        return coordinate.getSurroundingTileCoordinates().values().stream().map(tc ->  this.getTile(tc)).toArray(Tile[]::new);
     }
 
     @Override
