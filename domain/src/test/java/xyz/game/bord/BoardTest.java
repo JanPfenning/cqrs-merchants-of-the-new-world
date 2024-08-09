@@ -1,88 +1,101 @@
 package xyz.game.bord;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import xyz.game.board.Board;
-import xyz.game.board.Board.Coord;
-import xyz.game.board.Board.Edge;
-import xyz.game.board.Board.TileNode;
-import xyz.game.board.Board.Vertex;
-import xyz.game.board.WaterTile;
+import xyz.game.board.Edge;
+import xyz.game.board.GridBoard;
+import xyz.game.board.Tile;
+import xyz.game.board.TileCoordinate;
+import xyz.game.board.Vertex;
 
 public class BoardTest {
-    @Test
-    public void shouldCreateBoardWithGivenSizeOfWaterTiles() throws Exception {
-        Board board = new Board(10,5);
-        for (TileNode node : board.getNodes()) {
-            assertInstanceOf(WaterTile.class, node.getData());
+
+    public static <T> List<T> findCommonElements(T[]... arrays) {
+        if (arrays.length == 0) {
+            return new ArrayList<>();
         }
-        assertEquals(50, board.getNodes().size());
+        
+        if (arrays.length == 1) {
+            return new ArrayList<>(Arrays.asList(arrays[0]));
+        }
+
+        HashSet<T> commonElementsSet = new HashSet<>(Arrays.asList(arrays[0]));
+
+        for (int i = 1; i < arrays.length; i++) {
+            HashSet<T> currentSet = new HashSet<>(Arrays.asList(arrays[i]));
+            commonElementsSet.retainAll(currentSet);
+            if (commonElementsSet.isEmpty()) {
+                break;
+            }
+        }
+
+        return new ArrayList<>(commonElementsSet.stream().filter(x -> x != null).toList());
     }
 
     @Test
-    public void shouldHaveTheCorrectNeighbours() throws Exception {
+    public void shouldHaveTheCorrectNeighbours() {
         @Data
         @AllArgsConstructor
-        class TestCase {
-            Coord source;
-            Coord[] expectedNeighbours;
+        final class TestCase {
+            TileCoordinate source;
+            TileCoordinate[] expectedNeighbours;
         }
-
-        Board board = new Board(10,5);
-
         TestCase[] testCases = new TestCase[]{
             new TestCase(
-                new Coord(1,2),
-                new Coord[]{
-                    new Coord(1, 1),
-                    new Coord(2, 2),
-                    new Coord(2, 3),
-                    new Coord(1, 3),
-                    new Coord(0, 3),
-                    new Coord(0, 2),
+                new TileCoordinate(1,2),
+                new TileCoordinate[]{
+                    new TileCoordinate(1, 1),
+                    new TileCoordinate(2, 2),
+                    new TileCoordinate(2, 3),
+                    new TileCoordinate(1, 3),
+                    new TileCoordinate(0, 3),
+                    new TileCoordinate(0, 2),
                 }
             ),
             new TestCase(
-                new Coord(2,1),
-                new Coord[]{
-                    new Coord(1, 0),
-                    new Coord(2, 0),
-                    new Coord(3, 0),
-                    new Coord(3, 1),
-                    new Coord(2, 2),
-                    new Coord(1, 1),
+                new TileCoordinate(2,1),
+                new TileCoordinate[]{
+                    new TileCoordinate(1, 0),
+                    new TileCoordinate(2, 0),
+                    new TileCoordinate(3, 0),
+                    new TileCoordinate(3, 1),
+                    new TileCoordinate(2, 2),
+                    new TileCoordinate(1, 1),
                 }
             ),
             new TestCase(
-                new Coord(3,1),
-                new Coord[]{
-                    new Coord(3, 0),
-                    new Coord(4, 1),
-                    new Coord(4, 2),
-                    new Coord(3, 2),
-                    new Coord(2, 2),
-                    new Coord(2, 1),
+                new TileCoordinate(3,1),
+                new TileCoordinate[]{
+                    new TileCoordinate(3, 0),
+                    new TileCoordinate(4, 1),
+                    new TileCoordinate(4, 2),
+                    new TileCoordinate(3, 2),
+                    new TileCoordinate(2, 2),
+                    new TileCoordinate(2, 1),
                 }
             )
         };
+
+        Board board = new GridBoard(10,5);
+
         for (TestCase tc : testCases) {
-            List<Coord> actualNeighbours = Arrays.stream(board.getNodeAt(tc.source.x, tc.source.y).getNeighbours())
-                .map(n -> new Coord(n.x, n.y))
+            List<TileCoordinate> actualNeighbours = Arrays.stream(board.getAdjacentTiles(tc.source))
+                .map(n -> n.getCoordinate())
                 .collect(Collectors.toList());
-            for (Coord expectedNeighbour : tc.expectedNeighbours) {
+            for (TileCoordinate expectedNeighbour : tc.expectedNeighbours) {
                 assertTrue(actualNeighbours.contains(expectedNeighbour));
             }
             assertEquals(tc.expectedNeighbours.length, actualNeighbours.size());
@@ -91,106 +104,115 @@ public class BoardTest {
 
     @Test
     public void shouldHaveSixEdgesForEveryNode() throws Exception {
-        Board board = new Board(10,5);
-        for (TileNode node : board.getNodes()) {
-            for (Edge e : node.getEdges()) {
+        Board board = new GridBoard(10,5);
+        Tile[] tiles = board.getTiles().values().stream().toArray(Tile[]::new);
+        for (Tile tile : tiles) {
+            Edge[] adjacentEdges = board.getAdjacentEdges(tile.getCoordinate());
+            for (Edge e : adjacentEdges) {
                 assertNotNull(e);
             }
-            // Should share one edge with every non-null neighbour
-            for(TileNode neighbour : node.getNeighbours()) {
-                if (neighbour != null) {
-                    long count = Arrays.stream(neighbour.getEdges())
-                            .filter(e -> e != null && (e.getTiles()[0] == node || e.getTiles()[1] == node))
-                            .count();
-                    assertEquals(1, count);
-                }
-            }
+            assertEquals(6, adjacentEdges.length);
         }
-        // TODO count of edges should match expected count
     }
-
-    public static <T> T findCommonElement(T[] array1, T[] array2, T[] array3) {
-        Set<T> set1 = new HashSet<>(Arrays.asList(array1));
-        Set<T> set2 = new HashSet<>(Arrays.asList(array2));
-        
-        for (T element : array3) {
-            if (set1.contains(element) && set2.contains(element)) {
-                return element;
-            }
-        }
-        
-        return null; // No common element found
-    }
-
-    @Data
-    @AllArgsConstructor
-    class TestCaseForTrisection {
-        Coord nodeA;
-        Coord nodeB;
-        Coord nodeC;
-    }
-
-    TestCaseForTrisection[] testCases = new TestCaseForTrisection[]{
-        new TestCaseForTrisection(
-            new Coord(1,1),
-            new Coord(2,1),
-            new Coord(2,2)
-        ),
-        // new TestCase(
-        //     new Coord(4,1),
-        //     new Coord(3,1),
-        //     new Coord(4,2)
-        // ),
-        // new TestCase(
-        //     new Coord(4,1),
-        //     new Coord(3,1),
-        //     new Coord(3,0)
-        // ),
-        // new TestCase(
-        //     new Coord(4,1),
-        //     new Coord(4,2),
-        //     new Coord(3,2)
-        // ),
-        // new TestCase(
-        //     new Coord(2,2),
-        //     new Coord(3,1),
-        //     new Coord(3,2)
-        // ),
-    };
 
     @Test
-    public void shouldHaveCommonVertexIfNodesTrisection() {
-
-        Board board = new Board(10,5);
-
-        for (TestCaseForTrisection tc : testCases) {
-
-            Vertex[][] vertexArrays = new Vertex[][]{
-                board.getNodeAt(tc.nodeA.x, tc.nodeA.y).getVertices(),
-                board.getNodeAt(tc.nodeB.x, tc.nodeB.y).getVertices(),
-                board.getNodeAt(tc.nodeC.x, tc.nodeC.y).getVertices(),
-            };
-            Vertex v = findCommonElement(vertexArrays[0], vertexArrays[1], vertexArrays[2]);
-            assertNotNull(v);
+    public void shouldShareOneEdgeWithEveryNonNullNeighbour() {
+        Board board = new GridBoard(10,5);
+        Tile[] tiles = board.getTiles().values().stream().toArray(Tile[]::new);
+        for(Tile tile : tiles){
+            Edge[] adjacentEdgesToTile = board.getAdjacentEdges(tile.getCoordinate());
+            Tile[] neighbourTiles = board.getAdjacentTiles(tile.getCoordinate());
+            for(Tile neighbour : neighbourTiles) {
+                if (neighbour != null) {
+                    Edge[] adjacentEdgesToNeighbour = board.getAdjacentEdges(neighbour.getCoordinate());
+                    Edge[] edgesAdjacentToNeighbourAndTile = findCommonElements(adjacentEdgesToNeighbour, adjacentEdgesToTile).toArray(Edge[]::new);
+                    assertEquals(1, edgesAdjacentToNeighbourAndTile.length);
+                }
+            }
         }
     }
 
     @Test
     public void shouldHaveSixVerticesForEveryNode() {
-        Board board = new Board(10,5);
-        for (TileNode node : board.getNodes()) {
-            // for (Vertex v : node.getVertices()) {
-            //     assertNotNull(v);
-            // }
-            // should share 2 vertices with every non-null neighbour
-            for(TileNode neighbour : node.getNeighbours()) {
+        Board board = new GridBoard(10,5);
+        Tile[] tiles = board.getTiles().values().stream().toArray(Tile[]::new);
+        for (Tile tile : tiles) {
+            Vertex[] adjacentVertices = board.getAdjacentVertices(tile.getCoordinate());
+            for (Vertex v : adjacentVertices) {
+                assertNotNull(v);
+            }
+            assertEquals(6, adjacentVertices.length);
+        }
+    }
+
+    @Test
+    public void shouldShareTwoVerticesWithEveryNonNullNeighbour(){
+        Board board = new GridBoard(10,5);
+        Tile[] tiles = board.getTiles().values().stream().toArray(Tile[]::new);
+        for (Tile tile : tiles) {
+            Vertex[] adjacentVerticesToTile = board.getAdjacentVertices(tile.getCoordinate());
+            Tile[] neighbourTiles = board.getAdjacentTiles(tile.getCoordinate());
+            for(Tile neighbour : neighbourTiles) {
                 if (neighbour != null) {
-                    long count = Arrays.stream(neighbour.getVertices())
-                            .filter(v -> v != null && (v.getTiles()[0] == node || v.getTiles()[1] == node || v.getTiles()[2] == node))
-                            .count();
-                    assertEquals(2, count);
+                    Vertex[] adjacentVerticesToNeighbour = board.getAdjacentVertices(neighbour.getCoordinate());
+                    Vertex[] verticesAdjacentToNeighbourAndTile = findCommonElements(adjacentVerticesToNeighbour, adjacentVerticesToTile).toArray(Vertex[]::new);
+                    assertEquals(2, verticesAdjacentToNeighbourAndTile.length);
                 }
             }
+        }
+    }
+
+    // TODO count of edges should match expected count
+    // TODO count of vertices should match expected count
+    // TODO count of tiles should match expected count
+
+    @Test
+    public void shouldHaveCommonVertexIfNodesTrisection() {
+        record TestCase(
+            TileCoordinate nodeA,
+            TileCoordinate nodeB,
+            TileCoordinate nodeC
+        ){};
+    
+        TestCase[] testCases = new TestCase[]{
+            new TestCase(
+                new TileCoordinate(1,1),
+                new TileCoordinate(2,1),
+                new TileCoordinate(2,2)
+            ),
+            new TestCase(
+                new TileCoordinate(4,1),
+                new TileCoordinate(3,1),
+                new TileCoordinate(4,2)
+            ),
+            new TestCase(
+                new TileCoordinate(4,1),
+                new TileCoordinate(3,1),
+                new TileCoordinate(3,0)
+            ),
+            new TestCase(
+                new TileCoordinate(4,1),
+                new TileCoordinate(4,2),
+                new TileCoordinate(3,1)
+            ),
+            new TestCase(
+                new TileCoordinate(2,2),
+                new TileCoordinate(3,1),
+                new TileCoordinate(3,2)
+            ),
+        };
+        
+        GridBoard board = new GridBoard(10,5);
+
+        for (TestCase tc : testCases) {
+            Vertex[][] vertexArrays = new Vertex[][]{
+                board.getAdjacentVertices(board.getTile(tc.nodeA).getCoordinate()),
+                board.getAdjacentVertices(board.getTile(tc.nodeB).getCoordinate()),
+                board.getAdjacentVertices(board.getTile(tc.nodeC).getCoordinate()),
+            };
+            Vertex[] intersectionVertices = findCommonElements(vertexArrays[0], vertexArrays[1], vertexArrays[2]).toArray(Vertex[]::new);
+            assertEquals(1, intersectionVertices.length);
+            assertNotNull(intersectionVertices[0]);
         }
     }
 }

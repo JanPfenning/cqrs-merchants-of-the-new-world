@@ -1,5 +1,7 @@
 package xyz.game.board;
 
-public class WaterTile extends HexTile {
-
+class WaterTile extends Tile {
+    WaterTile(TileCoordinate c) {
+        super(c);
+    }
 }
