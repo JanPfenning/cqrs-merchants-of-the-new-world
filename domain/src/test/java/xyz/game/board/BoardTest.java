@@ -1,4 +1,4 @@
-package xyz.game.bord;
+package xyz.game.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,12 +14,6 @@ import org.junit.jupiter.api.Test;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import xyz.game.board.Board;
-import xyz.game.board.Edge;
-import xyz.game.board.GridBoard;
-import xyz.game.board.Tile;
-import xyz.game.board.TileCoordinate;
-import xyz.game.board.Vertex;
 
 public class BoardTest {
 
