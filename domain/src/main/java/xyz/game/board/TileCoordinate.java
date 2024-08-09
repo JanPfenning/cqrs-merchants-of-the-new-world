@@ -1,7 +1,5 @@
 package xyz.game.board;
 
-import java.util.Map;
-
 import lombok.Getter;
 
 public class TileCoordinate {
@@ -10,9 +8,10 @@ public class TileCoordinate {
 
     @Getter
     private final TileCoordinate[] surroundingTileCoordinates;
-
     @Getter
     private final EdgeCoordinate[] surroundingEdgeCoordindates;
+    @Getter
+    private final VertexCoordinate[] surroundingVertexCoordindates;
     
     public TileCoordinate(int x, int y) {
         this.x = x;
@@ -37,6 +36,17 @@ public class TileCoordinate {
             new EdgeCoordinate(baseEdgeX+1, baseEdgeY+4), // S
             new EdgeCoordinate(baseEdgeX+0, baseEdgeY+3), // SW
             new EdgeCoordinate(baseEdgeX+0, baseEdgeY+1),  // NW
+        };
+
+        int baseVertexOfsetY = x % 2 == 0 ? 0 : 1;
+        int baseVertexY = y * 2 + baseVertexOfsetY;
+        this.surroundingVertexCoordindates = new VertexCoordinate[]{
+            new VertexCoordinate(x+1, baseVertexY+0), // NE
+            new VertexCoordinate(x+1, baseVertexY+1), // E
+            new VertexCoordinate(x+1, baseVertexY+2), // SE
+            new VertexCoordinate(x+0, baseVertexY+2), // SW
+            new VertexCoordinate(x+0, baseVertexY+1), // W
+            new VertexCoordinate(x+0, baseVertexY+0),  // NW
         };
     }
 

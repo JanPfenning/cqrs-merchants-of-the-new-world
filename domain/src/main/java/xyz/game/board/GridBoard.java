@@ -98,8 +98,7 @@ public class GridBoard implements Board {
 
     @Override
     public Vertex[] getAdjacentVertices(TileCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAdjacentVertices'");
+        return Arrays.stream(coordinate.getSurroundingVertexCoordindates()).map(c -> this.getVertex(c)).toArray(Vertex[]::new);    
     }
 
     @Override
