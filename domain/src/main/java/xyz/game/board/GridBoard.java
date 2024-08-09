@@ -46,20 +46,17 @@ public class GridBoard implements Board {
 
     @Override
     public Tile getTile(TileCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTile'");
+        return this.tiles.get(coordinate);
     }
 
     @Override
     public Edge getEdge(EdgeCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getEdge'");
+        return this.edges.get(coordinate);
     }
 
     @Override
     public Vertex getVertex(VertexCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getVertex'");
+        return this.vertices.get(coordinate);
     }
 
     @Override
