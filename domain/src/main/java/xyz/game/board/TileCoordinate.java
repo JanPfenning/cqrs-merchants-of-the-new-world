@@ -1,10 +1,16 @@
 package xyz.game.board;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class TileCoordinate {
 
-    private final int x, y;
+    @EqualsAndHashCode.Include
+    private final int x;
+    
+    @EqualsAndHashCode.Include
+    private final int y;
 
     @Getter
     private final TileCoordinate[] surroundingTileCoordinates;
