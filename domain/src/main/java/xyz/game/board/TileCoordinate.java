@@ -9,14 +9,7 @@ public class TileCoordinate {
     private final int x, y;
 
     @Getter
-    private final Map<CardinalDirection, TileCoordinate> surroundingTileCoordinates = Map.ofEntries(
-        Map.entry(CardinalDirection.NORTH, calcNnTileCoordinate()),
-        Map.entry(CardinalDirection.NORTH_EAST, calcNeTileCoordinate()),
-        Map.entry(CardinalDirection.SOUTH_EAST, calcSeTileCoordinate()),
-        Map.entry(CardinalDirection.SOUTH, calcSsTileCoordinate()),
-        Map.entry(CardinalDirection.SOUTH_WEST, calcSwTileCoordinate()),
-        Map.entry(CardinalDirection.NORTH_WEST, calcNwTileCoordinate())
-    );
+    private final Map<CardinalDirection, TileCoordinate> surroundingTileCoordinates;
 
     @Getter
     private final EdgeCoordinate[] surroundingEdgeCoordindates;
@@ -24,6 +17,15 @@ public class TileCoordinate {
     public TileCoordinate(int x, int y) {
         this.x = x;
         this.y = y;
+
+        this.surroundingTileCoordinates = Map.ofEntries(
+            Map.entry(CardinalDirection.NORTH,      new TileCoordinate(x + 0, y - 1)),
+            Map.entry(CardinalDirection.NORTH_EAST, new TileCoordinate(x + 1, y + (x % 2 == 0 ? -1 : 0))),
+            Map.entry(CardinalDirection.SOUTH_EAST, new TileCoordinate(x + 1, y + (x % 2 == 0 ? 0 : +1))),
+            Map.entry(CardinalDirection.SOUTH,      new TileCoordinate(x + 0, y + 1)),
+            Map.entry(CardinalDirection.SOUTH_WEST, new TileCoordinate(x - 1, y + (x % 2 == 0 ? 0 : +1))),
+            Map.entry(CardinalDirection.NORTH_WEST, new TileCoordinate(x - 1, y + (x % 2 == 0 ? -1 : 0)))
+        );
 
         int baseEdgeX = x * 2;
         int baseEdgeOfsetY = x % 2 == 1 ? 2 : 0;
@@ -36,25 +38,6 @@ public class TileCoordinate {
             new EdgeCoordinate(baseEdgeX+0, baseEdgeY+3), // SW
             new EdgeCoordinate(baseEdgeX+0, baseEdgeY+1)  // NW
         };
-    }
-
-    private TileCoordinate calcNnTileCoordinate() {
-        return new TileCoordinate(x, y - 1);
-    }
-    private TileCoordinate calcNeTileCoordinate() {
-        return new TileCoordinate(x+1, y + (x % 2 == 0 ? -1 : 0));
-    }
-    private TileCoordinate calcSeTileCoordinate() {
-        return new TileCoordinate(x+1, y + (x % 2 == 0 ? 0 : +1));
-    }
-    private TileCoordinate calcSsTileCoordinate() {
-        return new TileCoordinate(x, y + 1);
-    }
-    private TileCoordinate calcSwTileCoordinate() {
-        return new TileCoordinate(x-1, y + (x % 2 == 0 ? 0 : +1));
-    }
-    private TileCoordinate calcNwTileCoordinate() {
-        return new TileCoordinate(x-1, y + (x % 2 == 0 ? -1 : 0));
     }
 
     @Override
