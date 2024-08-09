@@ -66,6 +66,43 @@ public class EdgeCoordinateTest {
     }
 
     @Test
+    void shouldGetSurroundingEdgeCoordinates() {
+        EdgeCoordinate c = new EdgeCoordinate(4, 6);
+        EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+            new EdgeCoordinate(4, 5),
+            new EdgeCoordinate(5, 6),
+            new EdgeCoordinate(4, 7),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+    
+        EdgeCoordinate c1 = new EdgeCoordinate(5, 6);
+        EdgeCoordinate[] expectedNeighbours1 = new EdgeCoordinate[]{
+            new EdgeCoordinate(4, 6),
+            new EdgeCoordinate(5, 5),
+            new EdgeCoordinate(5, 7),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours1, c1.getSurroundingEdgeCoordinates()));
+    
+    
+        EdgeCoordinate c2 = new EdgeCoordinate(5, 7);
+        EdgeCoordinate[] expectedNeighbours2 = new EdgeCoordinate[]{
+            new EdgeCoordinate(5, 6),
+            new EdgeCoordinate(6, 7),
+            new EdgeCoordinate(5, 8),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours2, c2.getSurroundingEdgeCoordinates()));
+    
+    
+        EdgeCoordinate c3 = new EdgeCoordinate(4, 7);
+        EdgeCoordinate[] expectedNeighbours3 = new EdgeCoordinate[]{
+            new EdgeCoordinate(4, 6),
+            new EdgeCoordinate(3, 7),
+            new EdgeCoordinate(4, 8),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours3, c3.getSurroundingEdgeCoordinates()));
+    }
+
+    @Test
     void shouldNotThrowMissingCaseException() {
         EdgeCoordinate[] coordinates = new EdgeCoordinate[]{
                                           // x%2 | x%4 

@@ -82,8 +82,7 @@ public class GridBoard implements Board {
 
     @Override
     public Edge[] getAdjacentEdges(EdgeCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAdjacentEdges'");
+        return Arrays.stream(coordinate.getSurroundingEdgeCoordinates()).map(c -> this.getEdge(c)).toArray(Edge[]::new);
     }
 
     @Override

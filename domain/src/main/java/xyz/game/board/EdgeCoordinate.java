@@ -48,6 +48,15 @@ public class EdgeCoordinate{
         throw new MissingCaseException(x, y);
     }
 
+    public EdgeCoordinate[] getSurroundingEdgeCoordinates() {
+        boolean extendLeft = x%2 == 0 && y%2 == 1 || x%2 == 1 && y%2 == 0;
+        return new EdgeCoordinate[]{
+            new EdgeCoordinate(x, y-1),
+            new EdgeCoordinate(x + (extendLeft ? -1 : 1), y),
+            new EdgeCoordinate(x, y+1),
+        };
+    }
+
     @Override
     public String toString() {
         return "E(" + x + "," + y + ")";
