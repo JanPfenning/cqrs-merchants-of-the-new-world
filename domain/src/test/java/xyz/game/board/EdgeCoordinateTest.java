@@ -66,6 +66,30 @@ public class EdgeCoordinateTest {
     }
 
     @Test
+    void shouldGetSurroundingVertexCoordinates() {
+        EdgeCoordinate c = new EdgeCoordinate(5, 8);
+        VertexCoordinate[] expectedNeighbours = new VertexCoordinate[]{
+            new VertexCoordinate(2, 4),
+            new VertexCoordinate(3, 4),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingVertexCoordinates()));
+    
+        EdgeCoordinate c2 = new EdgeCoordinate(6, 9);
+        VertexCoordinate[] expectedNeighbours2 = new VertexCoordinate[]{
+            new VertexCoordinate(3, 4),
+            new VertexCoordinate(3, 5),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours2, c2.getSurroundingVertexCoordinates()));
+
+        EdgeCoordinate c3 = new EdgeCoordinate(4, 11);
+        VertexCoordinate[] expectedNeighbours3 = new VertexCoordinate[]{
+            new VertexCoordinate(2, 5),
+            new VertexCoordinate(2, 6),
+        };
+        assertTrue(arraysContainSameElements(expectedNeighbours3, c3.getSurroundingVertexCoordinates()));
+    }
+
+    @Test
     void shouldGetSurroundingEdgeCoordinates() {
         EdgeCoordinate c = new EdgeCoordinate(4, 6);
         EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{

@@ -57,6 +57,20 @@ public class EdgeCoordinate{
         };
     }
 
+    public VertexCoordinate[] getSurroundingVertexCoordinates() {
+        boolean horizontal = y % 2 == 0;
+        if(horizontal) {
+            return new VertexCoordinate[]{
+                new VertexCoordinate(x / 2 + 0, y / 2),
+                new VertexCoordinate(x / 2 + 1, y / 2),
+            };
+        }
+        return new VertexCoordinate[]{
+            new VertexCoordinate(x / 2, y / 2 + 0),
+            new VertexCoordinate(x / 2, y / 2 + 1),
+        };
+    }
+
     @Override
     public String toString() {
         return "E(" + x + "," + y + ")";
