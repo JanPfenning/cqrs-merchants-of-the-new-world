@@ -9,12 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
+import java.util.function.Consumer;
 
 import xyz.game.board.EdgeCoordinate.MissingCaseException;
 
 public class EdgeCoordinateTest {
 
-    public <T> boolean arraysContainSameElements(T[] a, T[] b) {
+    public static <T> boolean arraysContainSameElements(T[] a, T[] b) {
         // Check if sizes are different
         if (a.length != b.length) {
             return false;
@@ -50,19 +51,86 @@ public class EdgeCoordinateTest {
 
     @Test
     void shouldGetSurroundingTileCoordinates() {
-        EdgeCoordinate c = new EdgeCoordinate(6, 11);
-        TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
-            new TileCoordinate(2, 2),
-            new TileCoordinate(3, 2),
+        Consumer<Void> tc1 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(6, 11);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(2, 2),
+                new TileCoordinate(3, 2),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
         };
-        assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
     
-        EdgeCoordinate c2 = new EdgeCoordinate(8, 11);
-        TileCoordinate[] expectedNeighbours2 = new TileCoordinate[]{
-            new TileCoordinate(3, 2),
-            new TileCoordinate(4, 2),
+        Consumer<Void> tc2 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(8, 11);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(3, 2),
+                new TileCoordinate(4, 2),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
         };
-        assertTrue(arraysContainSameElements(expectedNeighbours2, c2.getSurroundingTileCoordinates()));
+
+        Consumer<Void> tc3 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(15, 14);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(7, 3),
+                new TileCoordinate(7, 2),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
+        };
+
+        Consumer<Void> tc4 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(16, 15);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(7, 3),
+                new TileCoordinate(8, 3),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
+        };
+
+        Consumer<Void> tc5 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(16, 17);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(7, 3),
+                new TileCoordinate(8, 4),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
+        };
+
+        Consumer<Void> tc6 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(15, 18);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(7, 3),
+                new TileCoordinate(7, 4),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
+        };
+
+        Consumer<Void> tc7 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(14, 17);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(7, 3),
+                new TileCoordinate(6, 4),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
+        };
+
+        Consumer<Void> tc8 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(14, 15);
+            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+                new TileCoordinate(7, 3),
+                new TileCoordinate(6, 3),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
+        };
+
+        tc1.accept(null);
+        tc2.accept(null);
+        tc3.accept(null);
+        tc4.accept(null);
+        tc5.accept(null);
+        tc6.accept(null);
+        tc7.accept(null);
+        tc8.accept(null);
     }
 
     @Test
@@ -91,39 +159,42 @@ public class EdgeCoordinateTest {
 
     @Test
     void shouldGetSurroundingEdgeCoordinates() {
-        EdgeCoordinate c = new EdgeCoordinate(4, 6);
-        EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
-            new EdgeCoordinate(4, 5),
-            new EdgeCoordinate(5, 6),
-            new EdgeCoordinate(4, 7),
+        Consumer<Void> tc1 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(15, 14);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(14, 13),
+                new EdgeCoordinate(16, 13),
+                new EdgeCoordinate(14, 15),
+                new EdgeCoordinate(16, 15),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
         };
-        assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
-    
-        EdgeCoordinate c1 = new EdgeCoordinate(5, 6);
-        EdgeCoordinate[] expectedNeighbours1 = new EdgeCoordinate[]{
-            new EdgeCoordinate(4, 6),
-            new EdgeCoordinate(5, 5),
-            new EdgeCoordinate(5, 7),
+
+        Consumer<Void> tc2 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(16, 15);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(15, 14),
+                new EdgeCoordinate(16, 13),
+                new EdgeCoordinate(17, 16),
+                new EdgeCoordinate(16, 17),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
         };
-        assertTrue(arraysContainSameElements(expectedNeighbours1, c1.getSurroundingEdgeCoordinates()));
-    
-    
-        EdgeCoordinate c2 = new EdgeCoordinate(5, 7);
-        EdgeCoordinate[] expectedNeighbours2 = new EdgeCoordinate[]{
-            new EdgeCoordinate(5, 6),
-            new EdgeCoordinate(6, 7),
-            new EdgeCoordinate(5, 8),
+
+        Consumer<Void> tc3 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(16, 13);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(16, 11),
+                new EdgeCoordinate(17, 12),
+                new EdgeCoordinate(15, 14),
+                new EdgeCoordinate(16, 15),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
         };
-        assertTrue(arraysContainSameElements(expectedNeighbours2, c2.getSurroundingEdgeCoordinates()));
-    
-    
-        EdgeCoordinate c3 = new EdgeCoordinate(4, 7);
-        EdgeCoordinate[] expectedNeighbours3 = new EdgeCoordinate[]{
-            new EdgeCoordinate(4, 6),
-            new EdgeCoordinate(3, 7),
-            new EdgeCoordinate(4, 8),
-        };
-        assertTrue(arraysContainSameElements(expectedNeighbours3, c3.getSurroundingEdgeCoordinates()));
+
+        tc1.accept(null);
+        tc2.accept(null);
+        tc3.accept(null);
     }
 
     @Test
