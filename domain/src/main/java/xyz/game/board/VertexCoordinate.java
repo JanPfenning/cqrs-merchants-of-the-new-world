@@ -57,6 +57,22 @@ public class VertexCoordinate{
         };
     }
 
+    public EdgeCoordinate[] getSurroundingEdgeCoordinates() {
+        boolean bothEvenOrBothOdd = x % 2 == y % 2;
+        if(bothEvenOrBothOdd) {
+            return new EdgeCoordinate[]{
+                new EdgeCoordinate(2*x, y*2-1),
+                new EdgeCoordinate(2*x+1, y*2),
+                new EdgeCoordinate(2*x, y*2+1),
+            };
+        }
+        return new EdgeCoordinate[]{
+            new EdgeCoordinate(2*x, y*2-1),
+            new EdgeCoordinate(2*x-1, y*2),
+            new EdgeCoordinate(2*x, y*2+1),
+        };
+    }
+
     @Override
     public String toString() {
         return "V(" + x + "," + y + ")";

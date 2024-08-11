@@ -88,4 +88,49 @@ public class VertexCoordinateTest {
         tc3.accept(null);
         tc4.accept(null);
     }
+
+    @Test
+    void shouldGetSurroundingEdgeCoordinates() {
+        Consumer<Void> tc1 = (v) -> {
+            VertexCoordinate c = new VertexCoordinate(6, 7);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(12, 13),
+                new EdgeCoordinate(11, 14),
+                new EdgeCoordinate(12, 15),
+            };
+            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+        };
+        Consumer<Void> tc2 = (v) -> {
+            VertexCoordinate c = new VertexCoordinate(6, 6);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(12, 11),
+                new EdgeCoordinate(13, 12),
+                new EdgeCoordinate(12, 13),
+            };
+            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+        };
+        Consumer<Void> tc3 = (v) -> {
+            VertexCoordinate c = new VertexCoordinate(5, 7);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(10, 13),
+                new EdgeCoordinate(11, 14),
+                new EdgeCoordinate(10, 15),
+            };
+            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+        };
+        Consumer<Void> tc4 = (v) -> {
+            VertexCoordinate c = new VertexCoordinate(5, 6);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(10, 11),
+                new EdgeCoordinate(9, 12),
+                new EdgeCoordinate(10, 13),
+            };
+            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+        };
+
+        tc1.accept(null);
+        tc2.accept(null);
+        tc3.accept(null);
+        tc4.accept(null);
+    }
 }
