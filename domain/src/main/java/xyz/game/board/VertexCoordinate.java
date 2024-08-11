@@ -25,6 +25,38 @@ public class VertexCoordinate{
         };
     }
 
+    public TileCoordinate[] getSurroundingTileCoordinates() {
+        boolean xEven = x % 2 == 0;
+        boolean yEven = y % 2 == 0;
+        if(xEven && yEven){
+            return new TileCoordinate[]{
+                new TileCoordinate(x, y/2-1),
+                new TileCoordinate(x-1, y/2-1),
+                new TileCoordinate(x, y/2),
+            };
+        }
+        if(xEven && !yEven){
+            return new TileCoordinate[]{
+                new TileCoordinate(x-1, y/2-1),
+                new TileCoordinate(x, y/2),
+                new TileCoordinate(x-1, y/2),
+            };
+        }
+        if(!xEven && yEven){
+            return new TileCoordinate[]{
+                new TileCoordinate(x-1, y/2-1),
+                new TileCoordinate(x, y/2-1),
+                new TileCoordinate(x-1, y/2),
+            };
+        }
+        // if(!xEven && !yEven){
+        return new TileCoordinate[]{
+            new TileCoordinate(x, y/2-1),
+            new TileCoordinate(x-1, y/2),
+            new TileCoordinate(x, y/2),
+        };
+    }
+
     @Override
     public String toString() {
         return "V(" + x + "," + y + ")";

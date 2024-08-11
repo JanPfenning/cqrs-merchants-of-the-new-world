@@ -61,7 +61,7 @@ public class GridBoard implements Board {
 
     @Override
     public Tile[] getAdjacentTiles(TileCoordinate coordinate) {
-        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(tc ->  this.getTile(tc)).toArray(Tile[]::new);
+        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(c -> this.getTile(c)).toArray(Tile[]::new);
     }
 
     @Override
@@ -71,8 +71,7 @@ public class GridBoard implements Board {
 
     @Override
     public Tile[] getAdjacentTiles(VertexCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAdjacentTiles'");
+        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(c -> this.getTile(c)).toArray(Tile[]::new);
     }
 
     @Override
