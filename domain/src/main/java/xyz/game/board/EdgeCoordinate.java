@@ -60,36 +60,28 @@ public class EdgeCoordinate{
 
     @SneakyThrows(MissingCaseException.class)
     public EdgeCoordinate[] getSurroundingEdgeCoordinates() {
-        if(x % 2 == 0 && y % 4 == 1) {
+        if(x % 2 == 1){
             return new EdgeCoordinate[]{
-                new EdgeCoordinate((x/2) - 1, (y-5) / 4),
-                new EdgeCoordinate((x/2) - 1, (y-5) / 4),
-                new EdgeCoordinate((x/2) - 1, (y-5) / 4),
-                new EdgeCoordinate((x/2) + 0, (y-1) / 4),
+                new EdgeCoordinate(x - 1, y - 1),
+                new EdgeCoordinate(x - 1, y + 1),
+                new EdgeCoordinate(x + 1, y - 1),
+                new EdgeCoordinate(x + 1, y + 1),
             };
         }
-        if(x % 2 == 1 && y % 4 == 0){
+        if((x % 4 + y % 4) % 4 == 3 /* SW / NE */) {
             return new EdgeCoordinate[]{
-                new EdgeCoordinate((x/2) + 0, (y-4) / 4),
-                new EdgeCoordinate((x/2) + 0, (y-4) / 4),
-                new EdgeCoordinate((x/2) + 0, (y-4) / 4),
-                new EdgeCoordinate((x/2) + 0, (y-0) / 4),
+                new EdgeCoordinate(x + 0, y - 2),
+                new EdgeCoordinate(x + 1, y + 1),
+                new EdgeCoordinate(x - 1, y - 1),
+                new EdgeCoordinate(x + 0, y + 2),
             };
         }
-        if(x % 2 == 1 && y % 4 == 2){
+        if((x % 4 + y % 4) % 4 == 1 /* SE / NW */) {
             return new EdgeCoordinate[]{
-                new EdgeCoordinate((x/2) - 0, (y-6) / 4),
-                new EdgeCoordinate((x/2) - 0, (y-6) / 4),
-                new EdgeCoordinate((x/2) - 0, (y-6) / 4),
-                new EdgeCoordinate((x/2) + 0, (y-2) / 4),
-            };
-        }
-        if(x % 2 == 0 && y % 4 == 3){
-            return new EdgeCoordinate[]{
-                new EdgeCoordinate((x/2) - 1, (y-3) / 4),
-                new EdgeCoordinate((x/2) - 1, (y-3) / 4),
-                new EdgeCoordinate((x/2) - 1, (y-3) / 4),
-                new EdgeCoordinate((x/2) + 0, (y-3) / 4),
+                new EdgeCoordinate(x + 0, y - 2),
+                new EdgeCoordinate(x + 1, y - 1),
+                new EdgeCoordinate(x - 1, y + 1),
+                new EdgeCoordinate(x + 0, y + 2),
             };
         }
         // x%2 == 0 && y % 4 == 2 => error

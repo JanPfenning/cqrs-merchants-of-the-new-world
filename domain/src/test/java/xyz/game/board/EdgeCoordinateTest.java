@@ -192,9 +192,33 @@ public class EdgeCoordinateTest {
             assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
         };
 
+        Consumer<Void> tc4 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(14, 17);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(14, 15),
+                new EdgeCoordinate(13, 16),
+                new EdgeCoordinate(15, 18),
+                new EdgeCoordinate(14, 19),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+        };
+
+        Consumer<Void> tc5 = (v) -> {
+            EdgeCoordinate c = new EdgeCoordinate(14, 15);
+            EdgeCoordinate[] expectedNeighbours = new EdgeCoordinate[]{
+                new EdgeCoordinate(14, 13),
+                new EdgeCoordinate(15, 14),
+                new EdgeCoordinate(13, 16),
+                new EdgeCoordinate(14, 17),
+            };
+            assertTrue(arraysContainSameElements(expectedNeighbours, c.getSurroundingEdgeCoordinates()));
+        };
+
         tc1.accept(null);
         tc2.accept(null);
         tc3.accept(null);
+        tc4.accept(null);
+        tc5.accept(null);
     }
 
     @Test
