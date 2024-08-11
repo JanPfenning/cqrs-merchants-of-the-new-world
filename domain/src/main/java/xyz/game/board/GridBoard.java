@@ -103,7 +103,6 @@ public class GridBoard implements Board {
 
     @Override
     public Vertex[] getAdjacentVertices(VertexCoordinate coordinate) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAdjacentVertices'");
+        return Arrays.stream(coordinate.getSurroundingVertexCoordinates()).map(c -> this.getVertex(c)).toArray(Vertex[]::new);
     }
 }
