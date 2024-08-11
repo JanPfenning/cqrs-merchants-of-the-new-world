@@ -1,16 +1,17 @@
 package xyz.game.roll;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
+import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import org.junit.Test;
 
 import xyz.game.InvalidRollException;
 
@@ -28,7 +29,7 @@ public class RollFactoryTest {
             // assertTrue("both dice should be a valid d6", firstDiceValid && secondDiceValid);
         }
         for (int i = 1; i <= 6; i++) {
-            assertTrue("prodced "+i, producedValues.get(i));
+            assertTrue(producedValues.get(i));
         }
         Optional<Integer> max = producedValues.keySet().stream().max(Integer::compareTo);
         if(max.isPresent()){
