@@ -2,6 +2,7 @@ package xyz.game.board;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
@@ -46,47 +47,46 @@ public class VertexCoordinateTest {
 
     @Test
     void shouldGetSurroundingTileCoordinates() {
-        Consumer<Void> tc1 = (v) -> {
-            VertexCoordinate c = new VertexCoordinate(6, 7);
-            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+        BiConsumer<VertexCoordinate, TileCoordinate[]> runTestCase = (inp, expectedOutput) -> {
+            TileCoordinate[] actualOutput = inp.getSurroundingTileCoordinates();
+            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedOutput, actualOutput));
+        };
+
+        runTestCase.accept(
+            new VertexCoordinate(6, 7),
+            new TileCoordinate[]{
                 new TileCoordinate(6, 3),
                 new TileCoordinate(5, 2),
                 new TileCoordinate(5, 3),
-            };
-            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
-        };
-        Consumer<Void> tc2 = (v) -> {
-            VertexCoordinate c = new VertexCoordinate(6, 6);
-            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+            }
+        );
+
+        runTestCase.accept(
+            new VertexCoordinate(6, 6),
+            new TileCoordinate[]{
                 new TileCoordinate(6, 3),
                 new TileCoordinate(6, 2),
                 new TileCoordinate(5, 2),
-            };
-            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
-        };
-        Consumer<Void> tc3 = (v) -> {
-            VertexCoordinate c = new VertexCoordinate(7, 6);
-            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+            }
+        );
+
+        runTestCase.accept(
+            new VertexCoordinate(7, 6),
+            new TileCoordinate[]{
                 new TileCoordinate(6, 3),
                 new TileCoordinate(7, 2),
                 new TileCoordinate(6, 2),
-            };
-            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
-        };
-        Consumer<Void> tc4 = (v) -> {
-            VertexCoordinate c = new VertexCoordinate(7, 7);
-            TileCoordinate[] expectedNeighbours = new TileCoordinate[]{
+            }
+        );
+
+        runTestCase.accept(
+            new VertexCoordinate(7, 7),
+            new TileCoordinate[]{
                 new TileCoordinate(6, 3),
                 new TileCoordinate(7, 2),
                 new TileCoordinate(7, 3),
-            };
-            assertTrue(EdgeCoordinateTest.arraysContainSameElements(expectedNeighbours, c.getSurroundingTileCoordinates()));
-        };
-
-        tc1.accept(null);
-        tc2.accept(null);
-        tc3.accept(null);
-        tc4.accept(null);
+            }
+        );
     }
 
     @Test
