@@ -19,6 +19,12 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>xyz.game</groupId>
+			<artifactId>domain</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
