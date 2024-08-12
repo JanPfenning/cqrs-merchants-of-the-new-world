@@ -3,8 +3,7 @@ package xyz.game.board;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import xyz.game.domain.board.Board;
-import xyz.game.domain.board.GridBoard;
+import xyz.game.board.Board;
 
 @RestController
 public class BoardController {
