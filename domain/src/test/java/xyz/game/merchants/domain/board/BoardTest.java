@@ -2,12 +2,15 @@ package xyz.game.merchants.domain.board;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
@@ -46,7 +49,32 @@ public class BoardTest {
     }
 
     @Test
-    public void shouldHaveTheCorrectNeighbours() {
+    public void shouldThrowIfTileCoordinateDoesNotResultInTile () {
+        Consumer<TileCoordinate> test = (TileCoordinate c) -> {
+            Board board = new GridBoard(2, 3);
+            assertThrows(InvalidTileCoordinateException.class, () -> board.getTile(c));
+        };
+        test.accept(new TileCoordinate(-1, 1));
+        test.accept(new TileCoordinate(1, -1));
+        test.accept(new TileCoordinate(2, 1));
+        test.accept(new TileCoordinate(1, 3));
+    }
+
+    @Test
+    public void shouldNotThrowIfTileCoordinateResultsInTile () {
+        Consumer<TileCoordinate> test = (TileCoordinate c) -> {
+            Board board = new GridBoard(2, 3);
+            assertDoesNotThrow(() -> board.getTile(c));
+        };
+        test.accept(new TileCoordinate(0, 0));
+        test.accept(new TileCoordinate(1, 0));
+        test.accept(new TileCoordinate(0, 1));
+        test.accept(new TileCoordinate(1, 2));
+        test.accept(new TileCoordinate(1, 1));
+    }
+
+    @Test
+    public void shouldHaveTheCorrectNeighbours() throws InvalidTileCoordinateException {
         @Data
         @AllArgsConstructor
         final class TestCase {
@@ -116,7 +144,7 @@ public class BoardTest {
     }
 
     @Test
-    public void shouldShareOneEdgeWithEveryNonNullNeighbour() {
+    public void shouldShareOneEdgeWithEveryNonNullNeighbour() throws InvalidTileCoordinateException {
         Board board = new GridBoard(10,5);
         Tile[] tiles = board.getTiles().values().stream().toArray(Tile[]::new);
         for(Tile tile : tiles){
@@ -146,7 +174,7 @@ public class BoardTest {
     }
 
     @Test
-    public void shouldShareTwoVerticesWithEveryNonNullNeighbour(){
+    public void shouldShareTwoVerticesWithEveryNonNullNeighbour() throws InvalidTileCoordinateException{
         Board board = new GridBoard(10,5);
         Tile[] tiles = board.getTiles().values().stream().toArray(Tile[]::new);
         for (Tile tile : tiles) {
@@ -167,7 +195,7 @@ public class BoardTest {
     // TODO count of tiles should match expected count
 
     @Test
-    public void shouldHaveCommonVertexIfNodesTrisection() {
+    public void shouldHaveCommonVertexIfNodesTrisection() throws InvalidTileCoordinateException {
         record TestCase(
             TileCoordinate nodeA,
             TileCoordinate nodeB,
