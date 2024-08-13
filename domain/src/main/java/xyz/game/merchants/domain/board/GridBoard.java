@@ -8,9 +8,17 @@ import lombok.Getter;
 
 public class GridBoard implements Board {
     @Getter
-    private int width;
+    private int tileWidth;
     @Getter
-    private int height;
+    private int tileHeight;
+    @Getter
+    private int edgeWidth;
+    @Getter
+    private int edgeHeight;
+    @Getter
+    private int vertexWidth;
+    @Getter
+    private int vertexHeight;
     @Getter
     private final Map<TileCoordinate, Tile> tiles = new HashMap<>();
     @Getter
@@ -19,8 +27,8 @@ public class GridBoard implements Board {
     private final Map<VertexCoordinate, Vertex> vertices = new HashMap<>();
 
     public GridBoard(int width, int height) {
-        this.width = width;
-        this.height = height;
+        this.tileWidth = width;
+        this.tileHeight = height;
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -29,15 +37,19 @@ public class GridBoard implements Board {
             }
         }
 
-        for(int i = 0; i < (4 * (height + 1) + 2); i++){
-            for(int j = 0; j < (2 * (width + 1)); j++){
+        this.edgeHeight = (4 * (height + 1) + 2);
+        this.edgeWidth = (2 * (width + 1));
+        for(int i = 0; i < edgeHeight; i++){
+            for(int j = 0; j < edgeWidth; j++){
                 EdgeCoordinate c = new EdgeCoordinate(j, i);
                 this.edges.put(c, new Edge(c));
             }
         }
 
-        for(int i = 0; i < (2 * height + 2); i++){
-            for(int j = 0; j < (2 * width + 1); j++){
+        this.vertexHeight = (2 * height + 2);
+        this.vertexWidth = (2 * width + 1);
+        for(int i = 0; i < vertexHeight; i++){
+            for(int j = 0; j < vertexWidth; j++){
                 VertexCoordinate c = new VertexCoordinate(j, i);
                 this.vertices.put(c, new Vertex(c));
             }
@@ -91,7 +103,7 @@ public class GridBoard implements Board {
 
     @Override
     public Vertex[] getAdjacentVertices(TileCoordinate coordinate) {
-        return Arrays.stream(coordinate.getSurroundingVertexCoordindates()).map(c -> this.getVertex(c)).toArray(Vertex[]::new);    
+        return Arrays.stream(coordinate.getSurroundingVertexCoordinates()).map(c -> this.getVertex(c)).toArray(Vertex[]::new);    
     }
 
     @Override

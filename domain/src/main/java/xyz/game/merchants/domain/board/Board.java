@@ -3,6 +3,13 @@ package xyz.game.merchants.domain.board;
 import java.util.Map;
 
 public interface Board {
+    int getTileWidth();
+    int getTileHeight();
+    int getEdgeWidth();
+    int getEdgeHeight();
+    int getVertexWidth();
+    int getVertexHeight();
+
     Map<TileCoordinate, Tile> getTiles();
     Map<EdgeCoordinate, Edge> getEdges();
     Map<VertexCoordinate, Vertex> getVertices();
