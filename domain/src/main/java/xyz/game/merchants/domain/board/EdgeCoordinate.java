@@ -1,20 +1,11 @@
 package xyz.game.merchants.domain.board;
 
-import lombok.EqualsAndHashCode;
 import lombok.SneakyThrows;
 
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class EdgeCoordinate{
-
-    @EqualsAndHashCode.Include
-    private final int x;
-    
-    @EqualsAndHashCode.Include
-    private final int y;
+public class EdgeCoordinate extends Coordinate{
 
     public EdgeCoordinate(int x, int y) {
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
 
     @SneakyThrows(MissingCaseException.class)

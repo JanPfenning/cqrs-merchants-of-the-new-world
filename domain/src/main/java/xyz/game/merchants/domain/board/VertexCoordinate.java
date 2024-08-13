@@ -1,19 +1,9 @@
 package xyz.game.merchants.domain.board;
 
-import lombok.EqualsAndHashCode;
-
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class VertexCoordinate{
-
-    @EqualsAndHashCode.Include
-    private final int x;
-
-    @EqualsAndHashCode.Include
-    private final int y;
+public class VertexCoordinate extends Coordinate{
 
     public VertexCoordinate(int x, int y){
-        this.x = x;
-        this.y = y;
+        super(x, y);
     }
 
     public VertexCoordinate[] getSurroundingVertexCoordinates() {
