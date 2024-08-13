@@ -1,4 +1,4 @@
-package xyz.game;
+package xyz.game.merchants;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
