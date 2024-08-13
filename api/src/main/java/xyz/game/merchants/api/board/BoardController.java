@@ -4,9 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-
-import xyz.game.domain.board.Board;
-import xyz.game.domain.board.GridBoard;
+import xyz.game.merchants.domain.board.GridBoard;
 
 @RestController("/")
 @RequiredArgsConstructor
@@ -17,8 +15,11 @@ public class BoardController {
     }
 
     @GetMapping("/board")
-    public Board returnBoard() {
+    public BoardDTO returnBoard() {
         GridBoard b = new GridBoard(10, 5);
-        return b;
+
+        BoardDTO dto = BoardDTO.from(b);
+        
+        return dto;
     }
 }
