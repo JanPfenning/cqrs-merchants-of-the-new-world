@@ -1,12 +1,15 @@
-package xyz.game.api.board;
+package xyz.game.merchants.api.board;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.RequiredArgsConstructor;
+
 import xyz.game.domain.board.Board;
 import xyz.game.domain.board.GridBoard;
 
-@RestController
+@RestController("/")
+@RequiredArgsConstructor
 public class BoardController {
     @GetMapping("/ping")
     public String sayHello() {
