@@ -27,7 +27,7 @@ public class TileCoordinate {
         };
     };
 
-    public EdgeCoordinate[] getSurroundingEdgeCoordindates() {
+    public EdgeCoordinate[] getSurroundingEdgeCoordinates() {
         int baseEdgeX = x * 2;
         int baseEdgeOfsetY = x % 2 == 1 ? 2 : 0;
         int baseEdgeY = y * 4 + baseEdgeOfsetY;

@@ -76,7 +76,7 @@ public class GridBoard implements Board {
 
     @Override
     public Edge[] getAdjacentEdges(TileCoordinate coordinate) {
-        return Arrays.stream(coordinate.getSurroundingEdgeCoordindates()).map(c -> this.getEdge(c)).toArray(Edge[]::new);
+        return Arrays.stream(coordinate.getSurroundingEdgeCoordinates()).map(c -> this.getEdge(c)).toArray(Edge[]::new);
     }
 
     @Override
