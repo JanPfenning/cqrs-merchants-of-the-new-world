@@ -1,7 +1,7 @@
 package xyz.game.merchants.domain.board;
 
-class DesertTile extends LandTile {
-    DesertTile(TileCoordinate c){
+public class DesertTile extends LandTile {
+    public DesertTile(TileCoordinate c){
         super(c);
     }
 }

@@ -6,27 +6,38 @@ import java.util.Map;
 
 import org.springframework.lang.Nullable;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+@AllArgsConstructor
 public class GridBoard implements Board {
     @Getter
-    private int tileWidth;
+    final private int tileWidth;
     @Getter
-    private int tileHeight;
+    final private int tileHeight;
     @Getter
-    private int edgeWidth;
+    final private int edgeWidth;
     @Getter
-    private int edgeHeight;
+    final private int edgeHeight;
     @Getter
-    private int vertexWidth;
+    final private int vertexWidth;
     @Getter
-    private int vertexHeight;
+    final private int vertexHeight;
     @Getter
-    private final Map<TileCoordinate, Tile> tiles = new HashMap<>();
+    final protected Map<TileCoordinate, Tile> tiles = new HashMap<>();
     @Getter
-    private final Map<EdgeCoordinate, Edge> edges = new HashMap<>();
+    final protected Map<EdgeCoordinate, Edge> edges = new HashMap<>();
     @Getter
-    private final Map<VertexCoordinate, Vertex> vertices = new HashMap<>();
+    final protected Map<VertexCoordinate, Vertex> vertices = new HashMap<>();
+
+    public GridBoard(int width, int height, Map<TileCoordinate, Tile> tiles) {
+        this(width, height);
+
+        for (Map.Entry<TileCoordinate, Tile> entry : tiles.entrySet()) {
+            if(tiles.get(entry.getKey()) == null) throw new RuntimeException("tile is out of bounce with board");
+            this.tiles.put(entry.getKey(), entry.getValue());
+        }
+    }
 
     public GridBoard(int width, int height) {
         this.tileWidth = width;
