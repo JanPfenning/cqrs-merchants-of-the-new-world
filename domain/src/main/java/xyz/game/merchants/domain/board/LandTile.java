@@ -1,6 +1,6 @@
 package xyz.game.merchants.domain.board;
 
-abstract class LandTile extends Tile {
+public abstract class LandTile extends Tile {
     LandTile(TileCoordinate c){
         super(c);
     }
