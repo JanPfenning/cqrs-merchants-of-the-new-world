@@ -20,7 +20,7 @@ public class ApplyingRollCommandTest {
         RollCommand command = new RollCommand(jan, rollFactory.createStagedRoll(3, 4));
         
         Player[] players = new Player[]{jan, lena};
-        Game game = new Game(0, players, new LinkedList<>(), State.NEW_TURN);
+        Game game = new Game(0, players, new LinkedList<>(), null, State.NEW_TURN);
 
         assertEquals(game.rolls.size(), 0);
         
@@ -34,7 +34,7 @@ public class ApplyingRollCommandTest {
     public void shouldFailToApplyRollCommandIfItsNotTheActorsTurn() throws InvalidRollException {
         RollCommand command = new RollCommand(lena, rollFactory.createStagedRoll(3, 4));
         Player[] players = new Player[]{jan, lena};
-        Game game = new Game(players);
+        Game game = new Game(players, null);
 
         assertEquals(game.rolls.size(), 0);
         
@@ -47,7 +47,7 @@ public class ApplyingRollCommandTest {
     public void shouldFailToApplyRollCommandIfItsNotTheExpectedState() throws InvalidRollException {
         RollCommand command = new RollCommand(jan, rollFactory.createStagedRoll(3, 4));
         Player[] players = new Player[]{jan, lena};
-        Game game = new Game(0, players, new LinkedList<>(), State.TURN);
+        Game game = new Game(0, players, new LinkedList<>(), null, State.TURN);
 
         assertThrows(InvalidGameStateException.class, () -> game.applyCommand(command));
     }

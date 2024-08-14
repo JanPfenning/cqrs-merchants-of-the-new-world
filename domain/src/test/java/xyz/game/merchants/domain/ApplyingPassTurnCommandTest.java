@@ -17,7 +17,7 @@ public class ApplyingPassTurnCommandTest {
     
     @Test
     public void shouldApplyPassTurnCommand() {
-        Game game = new Game(0, new Player[]{jan, lena}, new LinkedList<>(), State.TURN);
+        Game game = new Game(0, new Player[]{jan, lena}, new LinkedList<>(), null, State.TURN);
         PassTurnCommand command = new PassTurnCommand(jan);
 
         int currentTurn = game.getTurn();
@@ -30,7 +30,7 @@ public class ApplyingPassTurnCommandTest {
 
     @Test
     public void shouldFailToApplyPassTurnCommandIfItsNotTheActorsTurn() {
-        Game game = new Game(0, new Player[]{jan, lena}, new LinkedList<>(), State.TURN);
+        Game game = new Game(0, new Player[]{jan, lena}, new LinkedList<>(), null, State.TURN);
         PassTurnCommand command = new PassTurnCommand(lena);
 
         int currentTurn = game.getTurn();
@@ -42,7 +42,7 @@ public class ApplyingPassTurnCommandTest {
         
     @Test
     public void shouldFailToApplyPassTurnCommanddIfItsNotTheExpectedState() throws InvalidRollException {
-        Game game = new Game(0, new Player[]{jan, lena}, new LinkedList<>(), State.NEW_TURN);
+        Game game = new Game(0, new Player[]{jan, lena}, new LinkedList<>(), null, State.NEW_TURN);
         PassTurnCommand command = new PassTurnCommand(jan);
 
         int currentTurn = game.getTurn();       

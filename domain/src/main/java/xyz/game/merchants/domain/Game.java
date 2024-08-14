@@ -5,6 +5,7 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import xyz.game.merchants.domain.board.Board;
 import xyz.game.merchants.domain.roll.Roll;
 
 @AllArgsConstructor
@@ -17,10 +18,13 @@ public class Game {
 
     List<Roll> rolls = new LinkedList<>();
 
+    private final Board board;
+
     private State state = State.INIT;
 
-    public Game(Player[] players) {
+    public Game(Player[] players, Board board) {
         this.players = players;
+        this.board = board;
     }
 
     public void applyCommand(PassTurnCommand command) throws UnexpectedActorException, InvalidGameStateException {
