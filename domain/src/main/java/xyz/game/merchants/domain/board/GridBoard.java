@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.lang.Nullable;
+
 import lombok.Getter;
 
 public class GridBoard implements Board {
@@ -57,17 +59,17 @@ public class GridBoard implements Board {
     }
 
     @Override
-    public Tile getTile(TileCoordinate coordinate) {
+    public @Nullable Tile getTile(TileCoordinate coordinate) {
         return this.tiles.get(coordinate);
     }
 
     @Override
-    public Edge getEdge(EdgeCoordinate coordinate) {
+    public @Nullable Edge getEdge(EdgeCoordinate coordinate) {
         return this.edges.get(coordinate);
     }
 
     @Override
-    public Vertex getVertex(VertexCoordinate coordinate) {
+    public @Nullable Vertex getVertex(VertexCoordinate coordinate) {
         return this.vertices.get(coordinate);
     }
 
