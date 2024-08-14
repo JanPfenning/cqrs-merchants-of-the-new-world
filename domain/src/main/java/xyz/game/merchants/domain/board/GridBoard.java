@@ -3,7 +3,6 @@ package xyz.game.merchants.domain.board;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import lombok.Getter;
 
@@ -58,11 +57,7 @@ public class GridBoard implements Board {
     }
 
     @Override
-    public Tile getTile(TileCoordinate coordinate) throws InvalidTileCoordinateException {
-        return Optional.ofNullable(this.tiles.get(coordinate)).orElseThrow(InvalidTileCoordinateException::new);
-    }
-
-    private Tile getTileOrNull(TileCoordinate coordinate) {
+    public Tile getTile(TileCoordinate coordinate) {
         return this.tiles.get(coordinate);
     }
 
@@ -77,27 +72,18 @@ public class GridBoard implements Board {
     }
 
     @Override
-    public Tile[] getAdjacentTiles(TileCoordinate coordinate) throws InvalidTileCoordinateException {
-        return Arrays.stream(coordinate.getSurroundingTileCoordinates())
-            .map(this::getTileOrNull)
-            .filter(x -> x!=null)
-            .toArray(Tile[]::new);
+    public Tile[] getAdjacentTiles(TileCoordinate coordinate) {
+        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(c -> this.getTile(c)).toArray(Tile[]::new);
     }
 
     @Override
     public Tile[] getAdjacentTiles(EdgeCoordinate coordinate) {
-        return Arrays.stream(coordinate.getSurroundingTileCoordinates())
-            .map(this::getTileOrNull)
-            .filter(x -> x!=null)
-            .toArray(Tile[]::new);
+        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(c -> this.getTile(c)).toArray(Tile[]::new);
     }
 
     @Override
     public Tile[] getAdjacentTiles(VertexCoordinate coordinate) {
-        return Arrays.stream(coordinate.getSurroundingTileCoordinates())
-            .map(this::getTileOrNull)
-            .filter(x -> x!=null)
-            .toArray(Tile[]::new);
+        return Arrays.stream(coordinate.getSurroundingTileCoordinates()).map(c -> this.getTile(c)).toArray(Tile[]::new);
     }
 
     @Override

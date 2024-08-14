@@ -14,13 +14,13 @@ public interface Board {
     Map<EdgeCoordinate, Edge> getEdges();
     Map<VertexCoordinate, Vertex> getVertices();
 
-    Tile getTile(TileCoordinate coordinate) throws InvalidTileCoordinateException;
+    Tile getTile(TileCoordinate coordinate);
     Edge getEdge(EdgeCoordinate coordinate);
     Vertex getVertex(VertexCoordinate coordinate);
 
-    Tile[] getAdjacentTiles(TileCoordinate coordinate) throws InvalidTileCoordinateException;
-    Tile[] getAdjacentTiles(EdgeCoordinate coordinate) throws InvalidTileCoordinateException;
-    Tile[] getAdjacentTiles(VertexCoordinate coordinate) throws InvalidTileCoordinateException;
+    Tile[] getAdjacentTiles(TileCoordinate coordinate);
+    Tile[] getAdjacentTiles(EdgeCoordinate coordinate);
+    Tile[] getAdjacentTiles(VertexCoordinate coordinate);
 
     Edge[] getAdjacentEdges(TileCoordinate coordinate);
     Edge[] getAdjacentEdges(EdgeCoordinate coordinate);
