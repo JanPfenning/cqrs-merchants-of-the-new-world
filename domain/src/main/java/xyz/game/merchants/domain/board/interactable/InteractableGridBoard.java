@@ -9,8 +9,10 @@ import xyz.game.merchants.domain.board.LandTile;
 import xyz.game.merchants.domain.board.Tile;
 import xyz.game.merchants.domain.board.TileCoordinate;
 import xyz.game.merchants.domain.board.Vertex;
+import xyz.game.merchants.domain.board.WaterTile;
 import xyz.game.merchants.domain.building.Settlement;
 import xyz.game.merchants.domain.building.City;
+import xyz.game.merchants.domain.building.Road;
 
 public class InteractableGridBoard extends GridBoard implements InteractableBoard {
 
@@ -27,7 +29,7 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
         super(width, height);
     }
 
-    @Override 
+    @Override
     // TODO it must be ensured somewhere else, that the player thats placing something is currently taking their turn
     // TODO it must be ensured somewhere else, that the respective costs are paid by the actor and that they can afford it
     public void applyPlaceSettlementCommand(PlaceSettlementCommand command) throws PlaceVertexBuildingException {
@@ -75,5 +77,36 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
             throw new BuildingCityWithoutOwnedSettlementException(v, command.actor);
         }
         v.setBuilding(new City(command.actor));
+    }
+
+    @Override
+    public void applyPlaceRoadCommand(PlaceRoadCommand command) throws PlaceEdgeBuildingException {
+        Edge e = this.getEdge(command.destination);
+        if(e == null) {
+            throw new BuildingOnNonExistingEdgeException(command.destination);
+        }
+        if(e.getBuilding() != null) {
+            throw new PlaceRoadOnOccupiedSpaceException();
+        }
+        boolean anyAdjacentTileIsLand = Stream.of(e.getCoordinate().getSurroundingTileCoordinates()).map(c -> this.getTile(c)).anyMatch(t -> t instanceof LandTile);
+        if(!anyAdjacentTileIsLand) {
+            throw new PlaceRoadWithoutLandException();
+        }
+        boolean adjacentRoad = Stream.of(command.destination.getSurroundingEdgeCoordinates())
+            .anyMatch(c -> 
+                this.getEdge(c) != null &&
+                this.getEdge(c).getBuilding() instanceof Road &&
+                this.getEdge(c).getBuilding().getOwner() == command.actor
+            );
+        boolean adjancentVertexBuilding = Stream.of(command.destination.getSurroundingVertexCoordinates())
+            .anyMatch(c -> 
+                this.getVertex(c) != null &&
+                this.getVertex(c).getBuilding() != null &&
+                this.getVertex(c).getBuilding().getOwner() == command.actor
+            );
+        if(!adjacentRoad && !adjancentVertexBuilding) {
+            throw new PlaceRoadWithoutConnectionException();
+        }
+        e.setBuilding(new Road(command.actor));
     }
 }
