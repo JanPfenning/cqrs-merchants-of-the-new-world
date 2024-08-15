@@ -10,6 +10,7 @@ import xyz.game.merchants.domain.board.Tile;
 import xyz.game.merchants.domain.board.TileCoordinate;
 import xyz.game.merchants.domain.board.Vertex;
 import xyz.game.merchants.domain.building.Settlement;
+import xyz.game.merchants.domain.building.City;
 
 public class InteractableGridBoard extends GridBoard implements InteractableBoard {
 
@@ -29,7 +30,7 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
     @Override 
     // TODO it must be ensured somewhere else, that the player thats placing something is currently taking their turn
     // TODO it must be ensured somewhere else, that the respective costs are paid by the actor and that they can afford it
-    public void applyPlaceSettlementCommand(PlaceSettlementCommand command) throws PlaceSettlementException {
+    public void applyPlaceSettlementCommand(PlaceSettlementCommand command) throws PlaceVertexBuildingException {
         Vertex v = this.getVertex(command.destination);
         if(v == null) {
             throw new BuildingOnNonExistingVertexException(command.destination);
@@ -62,5 +63,17 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
             }
         }
         v.setBuilding(new Settlement(command.actor));
+    }
+
+    @Override
+    public void applyPlaceCityCommand(PlaceCityCommand command) throws PlaceVertexBuildingException  {
+        Vertex v = this.getVertex(command.destination);
+        if(v == null) {
+            throw new BuildingOnNonExistingVertexException(command.destination);
+        }
+        if(v.getBuilding() == null || v.getBuilding().getOwner() != command.actor) {
+            throw new BuildingCityWithoutOwnedSettlementException(v, command.actor);
+        }
+        v.setBuilding(new City(command.actor));
     }
 }

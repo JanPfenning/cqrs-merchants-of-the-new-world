@@ -67,7 +67,7 @@ public class ApplyPlaceSettlementCommandTest {
 
     @SuppressWarnings("null")
     @Test
-    void shouldHavePlacedBuildingOnSite() throws PlaceSettlementException {
+    void shouldHavePlacedBuildingOnSite() throws PlaceVertexBuildingException {
         TileCoordinate c = new TileCoordinate(0, 0);
         InteractableBoard b = new InteractableGridBoard(2, 2, Map.ofEntries(Map.entry(c, new DesertTile(c))));
         Player p = new Player("Dummy");

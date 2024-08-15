@@ -7,13 +7,11 @@ import xyz.game.merchants.domain.Player;
 import xyz.game.merchants.domain.board.Edge;
 import xyz.game.merchants.domain.board.Tile;
 import xyz.game.merchants.domain.board.Vertex;
-import xyz.game.merchants.domain.board.VertexCoordinate;
 
-public abstract class PlaceSettlementException extends Exception {
+public abstract class PlaceSettlementException extends PlaceVertexBuildingException {
     PlaceSettlementException(String reason) {
         super(reason);
     }
-
 }
 
 class VertexHasBuildingAlreadyException extends PlaceSettlementException {
@@ -50,11 +48,5 @@ class VertexBuildingInTheOceanException extends PlaceSettlementException {
 class SettlementWithoutConnectionException extends PlaceSettlementException {
     SettlementWithoutConnectionException(Vertex v, Edge[] adjEdges, Player p) {
         super("Vertex "+v.toString()+" has no connection to any adjacent edge owned by "+p.name+" - the edges are "+Stream.of(adjEdges).filter(x -> x!=null).map(n -> n.toString()).collect(Collectors.joining(", ")));
-    }
-}
-
-class BuildingOnNonExistingVertexException extends PlaceSettlementException {
-    BuildingOnNonExistingVertexException(VertexCoordinate c) {
-        super("No Vertex exists at "+c.toString());
     }
 }
