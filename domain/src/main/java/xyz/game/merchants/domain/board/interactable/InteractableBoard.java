@@ -6,4 +6,5 @@ public interface InteractableBoard extends Board {
     void applyPlaceSettlementCommand(PlaceSettlementCommand command) throws PlaceVertexBuildingException;
     void applyPlaceCityCommand(PlaceCityCommand command) throws PlaceVertexBuildingException;
     void applyPlaceRoadCommand(PlaceRoadCommand command) throws PlaceEdgeBuildingException;
+    void applyPlaceShipCommand(PlaceShipCommand command) throws PlaceEdgeBuildingException;
 }

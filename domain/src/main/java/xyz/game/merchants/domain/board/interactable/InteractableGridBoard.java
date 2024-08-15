@@ -11,6 +11,7 @@ import xyz.game.merchants.domain.board.TileCoordinate;
 import xyz.game.merchants.domain.board.Vertex;
 import xyz.game.merchants.domain.board.WaterTile;
 import xyz.game.merchants.domain.building.Settlement;
+import xyz.game.merchants.domain.building.Ship;
 import xyz.game.merchants.domain.building.City;
 import xyz.game.merchants.domain.building.Road;
 
@@ -20,7 +21,7 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
         this(width, height);
 
         for (Map.Entry<TileCoordinate, Tile> entry : tiles.entrySet()) {
-                    if(tiles.get(entry.getKey()) == null) throw new RuntimeException("tile coordinate "+entry.getKey().toString()+" is out of bounds");
+            if(tiles.get(entry.getKey()) == null) throw new RuntimeException("tile coordinate "+entry.getKey().toString()+" is out of bounds");
             this.tiles.put(entry.getKey(), entry.getValue());
         }
     }
@@ -108,5 +109,36 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
             throw new PlaceRoadWithoutConnectionException();
         }
         e.setBuilding(new Road(command.actor));
+    }
+
+    @Override
+    public void applyPlaceShipCommand(PlaceShipCommand command) throws PlaceEdgeBuildingException {
+        Edge e = this.getEdge(command.destination);
+        if(e == null) {
+            throw new BuildingOnNonExistingEdgeException(command.destination);
+        }
+        if(e.getBuilding() != null) {
+            throw new PlaceShipOnOccupiedSpaceException();
+        }
+        boolean anyAdjacentTileIsWater = Stream.of(e.getCoordinate().getSurroundingTileCoordinates()).map(c -> this.getTile(c)).anyMatch(t -> t instanceof WaterTile);
+        if(!anyAdjacentTileIsWater) {
+            throw new PlaceShipWithoutWaterException();
+        }
+        boolean adjacentShip = Stream.of(command.destination.getSurroundingEdgeCoordinates())
+            .anyMatch(c -> 
+                this.getEdge(c) != null &&
+                this.getEdge(c).getBuilding() instanceof Ship &&
+                this.getEdge(c).getBuilding().getOwner() == command.actor
+            );
+        boolean adjancentVertexBuilding = Stream.of(command.destination.getSurroundingVertexCoordinates())
+            .anyMatch(c -> 
+                this.getVertex(c) != null &&
+                this.getVertex(c).getBuilding() != null &&
+                this.getVertex(c).getBuilding().getOwner() == command.actor
+            );
+        if(!adjacentShip && !adjancentVertexBuilding) {
+            throw new PlaceShipWithoutConnectionException();
+        }
+        e.setBuilding(new Ship(command.actor));
     }
 }
