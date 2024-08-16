@@ -1,6 +1,11 @@
 package xyz.game.merchants.domain.board;
 
 import java.util.Map;
+import java.util.Optional;
+
+import xyz.game.merchants.domain.board.harbours.Harbour;
+import xyz.game.merchants.domain.board.tiles.Tile;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 
 public interface Board {
     int getTileWidth();
@@ -13,6 +18,9 @@ public interface Board {
     Map<TileCoordinate, Tile> getTiles();
     Map<EdgeCoordinate, Edge> getEdges();
     Map<VertexCoordinate, Vertex> getVertices();
+
+    Map<EdgeCoordinate, Harbour> getHarbours();
+    Optional<Harbour> getHarbour(VertexCoordinate coordinate);
 
     Tile getTile(TileCoordinate coordinate);
     Edge getEdge(EdgeCoordinate coordinate);

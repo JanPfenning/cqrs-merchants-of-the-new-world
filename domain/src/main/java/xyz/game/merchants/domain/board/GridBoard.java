@@ -3,11 +3,17 @@ package xyz.game.merchants.domain.board;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 
 import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import xyz.game.merchants.domain.board.harbours.Harbour;
+import xyz.game.merchants.domain.board.tiles.Tile;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
+import xyz.game.merchants.domain.board.tiles.WaterTile;
 
 @AllArgsConstructor
 public class GridBoard implements Board {
@@ -23,6 +29,8 @@ public class GridBoard implements Board {
     final private int vertexWidth;
     @Getter
     final private int vertexHeight;
+    @Getter
+    final protected Map<EdgeCoordinate, Harbour> harbours = new HashMap<>();
     @Getter
     final protected Map<TileCoordinate, Tile> tiles = new HashMap<>();
     @Getter
@@ -127,5 +135,13 @@ public class GridBoard implements Board {
     @Override
     public Vertex[] getAdjacentVertices(VertexCoordinate coordinate) {
         return Arrays.stream(coordinate.getSurroundingVertexCoordinates()).map(c -> this.getVertex(c)).toArray(Vertex[]::new);
+    }
+
+    @Override
+    public Optional<Harbour> getHarbour(VertexCoordinate coordinate) {
+        return Arrays.stream(coordinate.getSurroundingEdgeCoordinates())
+            .map(edgeCoordinate -> this.harbours.get(edgeCoordinate))
+            .filter(Objects::nonNull)
+            .findFirst();
     }
 }
