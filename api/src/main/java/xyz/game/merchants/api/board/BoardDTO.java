@@ -7,10 +7,10 @@ import lombok.Getter;
 import xyz.game.merchants.domain.board.Board;
 import xyz.game.merchants.domain.board.Edge;
 import xyz.game.merchants.domain.board.EdgeCoordinate;
-import xyz.game.merchants.domain.board.Tile;
-import xyz.game.merchants.domain.board.TileCoordinate;
 import xyz.game.merchants.domain.board.Vertex;
 import xyz.game.merchants.domain.board.VertexCoordinate;
+import xyz.game.merchants.domain.board.tiles.Tile;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 
 @AllArgsConstructor
 public class BoardDTO {

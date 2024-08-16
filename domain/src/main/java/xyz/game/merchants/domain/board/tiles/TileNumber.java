@@ -1,11 +1,11 @@
-package xyz.game.merchants.domain.board;
+package xyz.game.merchants.domain.board.tiles;
 
 import lombok.Value;
 
 @Value
 public class TileNumber {
     int number;
-    TileNumber(int number) throws InvalidTileNumberException {
+    public TileNumber(int number) throws InvalidTileNumberException {
         if(number < 2 || number == 7 || number > 12){
             throw new InvalidTileNumberException(number);
         }

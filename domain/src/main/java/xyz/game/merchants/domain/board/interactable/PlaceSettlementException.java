@@ -5,8 +5,8 @@ import java.util.stream.Stream;
 
 import xyz.game.merchants.domain.Player;
 import xyz.game.merchants.domain.board.Edge;
-import xyz.game.merchants.domain.board.Tile;
 import xyz.game.merchants.domain.board.Vertex;
+import xyz.game.merchants.domain.board.tiles.Tile;
 
 public abstract class PlaceSettlementException extends PlaceVertexBuildingException {
     PlaceSettlementException(String reason) {

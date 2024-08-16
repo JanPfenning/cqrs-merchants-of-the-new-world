@@ -5,11 +5,11 @@ import java.util.stream.Stream;
 
 import xyz.game.merchants.domain.board.Edge;
 import xyz.game.merchants.domain.board.GridBoard;
-import xyz.game.merchants.domain.board.LandTile;
-import xyz.game.merchants.domain.board.Tile;
-import xyz.game.merchants.domain.board.TileCoordinate;
 import xyz.game.merchants.domain.board.Vertex;
-import xyz.game.merchants.domain.board.WaterTile;
+import xyz.game.merchants.domain.board.tiles.LandTile;
+import xyz.game.merchants.domain.board.tiles.Tile;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
+import xyz.game.merchants.domain.board.tiles.WaterTile;
 import xyz.game.merchants.domain.building.Settlement;
 import xyz.game.merchants.domain.building.Ship;
 import xyz.game.merchants.domain.building.City;

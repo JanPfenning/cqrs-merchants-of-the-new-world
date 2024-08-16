@@ -1,4 +1,4 @@
-package xyz.game.merchants.domain.board;
+package xyz.game.merchants.domain.board.tiles;
 
 public class WaterTile extends Tile {
     public WaterTile(TileCoordinate c) {

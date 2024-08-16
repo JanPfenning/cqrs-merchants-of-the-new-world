@@ -7,6 +7,8 @@ import java.util.function.Consumer;
 
 import org.junit.jupiter.api.Test;
 
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
+
 public class VertexCoordinateTest {
     @Test
     void testGetSurroundingVertexCoordindates() {

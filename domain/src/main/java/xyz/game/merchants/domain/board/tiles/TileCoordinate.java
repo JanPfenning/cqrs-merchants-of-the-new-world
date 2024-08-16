@@ -1,4 +1,8 @@
-package xyz.game.merchants.domain.board;
+package xyz.game.merchants.domain.board.tiles;
+
+import xyz.game.merchants.domain.board.Coordinate;
+import xyz.game.merchants.domain.board.EdgeCoordinate;
+import xyz.game.merchants.domain.board.VertexCoordinate;
 
 public class TileCoordinate extends Coordinate {
 

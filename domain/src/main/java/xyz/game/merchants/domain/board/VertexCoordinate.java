@@ -1,5 +1,7 @@
 package xyz.game.merchants.domain.board;
 
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
+
 public class VertexCoordinate extends Coordinate{
 
     public VertexCoordinate(int x, int y){

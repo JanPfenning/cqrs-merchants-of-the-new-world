@@ -1,6 +1,7 @@
 package xyz.game.merchants.domain.board;
 
 import lombok.SneakyThrows;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 
 public class EdgeCoordinate extends Coordinate{
 

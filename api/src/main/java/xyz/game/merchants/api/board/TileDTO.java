@@ -2,8 +2,8 @@ package xyz.game.merchants.api.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import xyz.game.merchants.domain.board.Tile;
-import xyz.game.merchants.domain.board.TileCoordinate;
+import xyz.game.merchants.domain.board.tiles.Tile;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 
 @AllArgsConstructor
 public class TileDTO {

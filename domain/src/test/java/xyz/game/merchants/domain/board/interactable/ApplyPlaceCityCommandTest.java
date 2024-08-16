@@ -10,9 +10,9 @@ import java.util.Map;
 import org.junit.jupiter.api.Test;
 
 import xyz.game.merchants.domain.Player;
-import xyz.game.merchants.domain.board.DesertTile;
-import xyz.game.merchants.domain.board.TileCoordinate;
 import xyz.game.merchants.domain.board.VertexCoordinate;
+import xyz.game.merchants.domain.board.tiles.DesertTile;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 import xyz.game.merchants.domain.building.City;
 import xyz.game.merchants.domain.building.Settlement;
 import xyz.game.merchants.domain.building.VertexBuilding;

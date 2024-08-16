@@ -1,4 +1,4 @@
-package xyz.game.merchants.domain.board;
+package xyz.game.merchants.domain.board.tiles;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -10,12 +10,12 @@ public abstract class Tile {
     @Getter
     protected final TileNumber number;
 
-    Tile(TileCoordinate c) {
+    protected Tile(TileCoordinate c) {
         this.coordinate = c;
         this.number = null;
     }
 
-    Tile(TileCoordinate c, TileNumber tileNumber) {
+    protected Tile(TileCoordinate c, TileNumber tileNumber) {
         this.coordinate = c;
         this.number = tileNumber;
     }

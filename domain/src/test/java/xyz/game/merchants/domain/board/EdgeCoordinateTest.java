@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import xyz.game.merchants.domain.board.EdgeCoordinate.MissingCaseException;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 
 public class EdgeCoordinateTest {
 

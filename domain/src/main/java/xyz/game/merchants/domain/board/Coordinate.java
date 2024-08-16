@@ -2,12 +2,13 @@ package xyz.game.merchants.domain.board;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import xyz.game.merchants.domain.board.tiles.TileCoordinate;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public abstract class Coordinate {
-    abstract TileCoordinate[] getSurroundingTileCoordinates();
-    abstract EdgeCoordinate[] getSurroundingEdgeCoordinates();
-    abstract VertexCoordinate[] getSurroundingVertexCoordinates();
+    public abstract TileCoordinate[] getSurroundingTileCoordinates();
+    public abstract EdgeCoordinate[] getSurroundingEdgeCoordinates();
+    public abstract VertexCoordinate[] getSurroundingVertexCoordinates();
 
     @Getter
     @EqualsAndHashCode.Include
