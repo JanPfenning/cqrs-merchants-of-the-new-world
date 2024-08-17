@@ -1,14 +1,15 @@
 package xyz.game.merchants.domain.resources;
 
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @EqualsAndHashCode
 public class Resources {
-    Brick brick;
-    Lumber lumber;
-    Wool wool;
-    Grain grain;
-    Ore ore;
+    final Brick brick;
+    final Lumber lumber;
+    final Wool wool;
+    final Grain grain;
+    final Ore ore;
 
     public Resources(Brick brick, Lumber lumber, Wool wool, Grain grain, Ore ore) {
         this.brick = brick;
@@ -34,8 +35,28 @@ public class Resources {
         this.ore = new Ore();
     }
 
+    public boolean canAfford(Resources costs) {
+        try {
+            Resources _newResources = this.pay(costs);
+            return true;
+        } catch(InvalidResourceAmountException e) {
+            return false;
+        }
+    }
+
+    public Resources pay(Resources costs) throws InvalidResourceAmountException {
+        return new Resources(
+            brick.getAmount() - costs.brick.getAmount(),
+            lumber.getAmount() - costs.lumber.getAmount(),
+            wool.getAmount() - costs.wool.getAmount(),
+            grain.getAmount() - costs.grain.getAmount(),
+            ore.getAmount() - costs.ore.getAmount()
+        );
+    }
+
     @EqualsAndHashCode
     class Resource {
+        @Getter
         private final int amount;
 
         Resource(int amount) throws InvalidResourceAmountException {

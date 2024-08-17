@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Map;
 
@@ -72,5 +73,10 @@ public class ApplyPlaceShipCommandTest {
         assertDoesNotThrow(() -> board.applyPlaceShipCommand(command));
         assertInstanceOf(Ship.class, board.getEdge(new EdgeCoordinate(1, 0)).getBuilding());
         assertEquals(p, board.getEdge(new EdgeCoordinate(1, 0)).getBuilding().getOwner());
+    }
+
+    @Test
+    void shouldThrowIfSettlementWouldBeLeftWithoutConnection() {
+        assertTrue(false); // TODO check that after building this ship no settlement of this player is without an edge building 
     }
 }

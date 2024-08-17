@@ -1,11 +1,15 @@
 package xyz.game.merchants.domain.board.interactable;
 
+import java.util.Arrays;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import xyz.game.merchants.domain.board.Edge;
+import xyz.game.merchants.domain.board.EdgeCoordinate;
 import xyz.game.merchants.domain.board.GridBoard;
 import xyz.game.merchants.domain.board.Vertex;
+import xyz.game.merchants.domain.board.VertexCoordinate;
 import xyz.game.merchants.domain.board.tiles.LandTile;
 import xyz.game.merchants.domain.board.tiles.Tile;
 import xyz.game.merchants.domain.board.tiles.TileCoordinate;
@@ -31,8 +35,6 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
     }
 
     @Override
-    // TODO it must be ensured somewhere else, that the player thats placing something is currently taking their turn
-    // TODO it must be ensured somewhere else, that the respective costs are paid by the actor and that they can afford it
     public void applyPlaceSettlementCommand(PlaceSettlementCommand command) throws PlaceVertexBuildingException {
         Vertex v = this.getVertex(command.destination);
         if(v == null) {
@@ -108,6 +110,7 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
         if(!adjacentRoad && !adjancentVertexBuilding) {
             throw new PlaceRoadWithoutConnectionException();
         }
+        validateNoSettlementWithoutEdgeBuilding();
         e.setBuilding(new Road(command.actor));
     }
 
@@ -139,6 +142,24 @@ public class InteractableGridBoard extends GridBoard implements InteractableBoar
         if(!adjacentShip && !adjancentVertexBuilding) {
             throw new PlaceShipWithoutConnectionException();
         }
+        Optional<Vertex> vertexWithSettlementWithoutEdgeOpt = validateNoSettlementWithoutEdgeBuilding();
+        if(vertexWithSettlementWithoutEdgeOpt.isPresent()) {
+            Vertex vertexWithSettlementWithoutEdge = vertexWithSettlementWithoutEdgeOpt.get();
+            EdgeCoordinate[] allowedEdgeCoordinates = vertexWithSettlementWithoutEdge.getCoordinate().getSurroundingEdgeCoordinates();
+            boolean fixesLoneSettlement = Arrays.stream(allowedEdgeCoordinates).anyMatch(allowedEdgeCoordainte -> allowedEdgeCoordainte == command.destination);
+            if(!fixesLoneSettlement) {
+                throw new LeftSettlementWithoutConnectionException(vertexWithSettlementWithoutEdge);
+            }
+        }
         e.setBuilding(new Ship(command.actor));
+    }
+
+    private Optional<Vertex> validateNoSettlementWithoutEdgeBuilding() {
+        Optional<Vertex> vertexWithoutEdgeBuilding = this.vertices.values().stream()
+            .filter(v -> v.getBuilding() instanceof Settlement)    
+            .filter(vertexWithSettlement -> Arrays.stream(vertexWithSettlement.getCoordinate().getSurroundingEdgeCoordinates())
+                .allMatch(adjEdgeOfVertexWithSettlement -> (this.getEdge(adjEdgeOfVertexWithSettlement) == null || this.getEdge(adjEdgeOfVertexWithSettlement).getBuilding() == null))
+            ).findFirst();
+        return vertexWithoutEdgeBuilding;
     }
 }
